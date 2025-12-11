@@ -1,23 +1,14 @@
-package com.property.entity;
+package com.bookingservice.dto;
 
 import java.time.LocalDate;
 
-import jakarta.persistence.*;
-
-@Entity
-@Table(name = "room_availability")
 public class RoomAvailability {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     private LocalDate availableDate;
     private int availableCount;
     private double price;
 
-    @ManyToOne
-    @JoinColumn(name = "roomid")
     private Rooms room;
 
 	public long getId() {

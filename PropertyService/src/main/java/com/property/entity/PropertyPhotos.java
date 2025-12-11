@@ -1,16 +1,20 @@
 package com.property.entity;
 
+import java.util.List;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 @Entity
-@RequestMapping("/api/v1/upload-photos")
+@Table (name = "property_photos")
 public class PropertyPhotos {
 	
 	@Id
@@ -25,6 +29,7 @@ public class PropertyPhotos {
 	public void setId(long id) {
 		this.id = id;
 	}
+
 
 	public String getUrl() {
 		return url;
@@ -42,7 +47,7 @@ public class PropertyPhotos {
 		this.property = property;
 	}
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "property_id")
 	private Property property;
 

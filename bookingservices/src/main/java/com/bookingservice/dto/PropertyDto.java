@@ -1,6 +1,4 @@
-package com.property.dto;
-
-import java.util.List;
+package com.bookingservice.dto;
 
 public class PropertyDto {
 	private long id;
@@ -12,9 +10,6 @@ public class PropertyDto {
 	private String city;
 	private String area;
 	private String state;
-	
-	private List<RoomsDto> rooms;
-	private List<String> url;
 	
 
 	public long getId() {
@@ -44,9 +39,6 @@ public class PropertyDto {
 	public String getState() {
 		return state;
 	}
-	public List<RoomsDto> getRooms() {
-		return rooms;
-	}
 	public void setId(long id) {
 		this.id = id;
 	}
@@ -74,19 +66,6 @@ public class PropertyDto {
 	public void setState(String state) {
 		this.state = state;
 	}
-	public void setRooms(List<RoomsDto> rooms) {
-		this.rooms = rooms;
-	}
-	public List<String> getImageUrls() {
-		return url;
-	}
-	public void setImageUrls(List<String> url) {
-		this.url = url;
-	}
-	
-	
-	
-	
 	
 
 }
