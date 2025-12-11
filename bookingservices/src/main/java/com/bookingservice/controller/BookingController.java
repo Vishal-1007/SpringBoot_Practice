@@ -3,11 +3,14 @@ package com.bookingservice.controller;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.Optional;
+import com.bookingservice.repository.BookingServiceApplication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.bookingservice.client.PropertyClient;
 import com.bookingservice.dto.APIResponse;
@@ -24,6 +27,8 @@ import com.bookingservice.repository.BookingRepository;
 @RequestMapping("/api/v1/booking")
 public class BookingController {
 
+    private final BookingServiceApplication bookingServiceApplication;
+
 	
 	@Autowired
 	private PropertyClient propertyClient;
@@ -33,6 +38,11 @@ public class BookingController {
 	
 	@Autowired
 	private BookingDateRepository bookingDateRepository;
+
+
+    BookingController(BookingServiceApplication bookingServiceApplication) {
+        this.bookingServiceApplication = bookingServiceApplication;
+    }
 
 	
 	@PostMapping("/add-to-cart")
@@ -85,10 +95,22 @@ public class BookingController {
 			bookingDateRepository.save(bookingDate);
 		}
 		
-		
-		
-		
 		return null;
+	}
+	
+	@PutMapping("/update-status-booking")
+	public boolean updateBooking(@RequestParam long id) {
+		Optional<Bookings> opBooking = bookingRepository.findById(id);
+		if(opBooking.isPresent()) {
+			Bookings bookings = opBooking.get();
+			bookings.setStatus("confirmed");
+			Bookings savedBookings = bookingRepository.save(bookings);
+			
+			if(savedBookings != null) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 }

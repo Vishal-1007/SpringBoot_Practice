@@ -29,7 +29,7 @@ public class ProductCheckoutController {
 
     @PostMapping("/checkout")
     public ResponseEntity<StripeResponse> checkoutProducts(@RequestBody ProductRequest productRequest) {
-        StripeResponse stripeResponse = stripeService.checkoutProducts(productRequest);
+    	StripeResponse stripeResponse = stripeService.checkoutProducts(productRequest);
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(stripeResponse);
