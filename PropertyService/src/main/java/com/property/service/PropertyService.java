@@ -10,7 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import com.property.PropertyServiceApplication;
+import com.property.controller.PropertyController;
 import com.property.dto.APIResponse;
+import com.property.dto.EmailRequest;
+import com.property.dto.EmailRequest;
 import com.property.dto.PropertyDto;
 import com.property.dto.RoomsDto;
 import com.property.entity.Area;
@@ -31,6 +34,8 @@ import com.property.repository.StateRepository;
 @Service
 public class PropertyService {
 
+    private final PropertyController propertyController;
+
     private final PropertyServiceApplication propertyServiceApplication;
 	
 	private PropertyRepository propertyRepository;
@@ -42,9 +47,12 @@ public class PropertyService {
 	private RoomAvailabilityRepository availabilityRepository; 
 	private RoomRepository roomRepository;
 	
+	@Autowired
+	private EmailProducer emailProducer;
+	
 	public PropertyService(PropertyRepository propertyRepository, AreaRepository areaRepository,
 			CityRepository cityRepository, StateRepository stateRepository, S3Service s3Service, PropertyPhotosRepository photosRepository,
-			PropertyServiceApplication propertyServiceApplication, RoomAvailabilityRepository availabilityRepository, RoomRepository roomRepository) {
+			PropertyServiceApplication propertyServiceApplication, RoomAvailabilityRepository availabilityRepository, RoomRepository roomRepository, PropertyController propertyController) {
 		super();
 		this.propertyRepository = propertyRepository;
 		this.areaRepository = areaRepository;
@@ -55,6 +63,7 @@ public class PropertyService {
 		this.propertyServiceApplication = propertyServiceApplication;
 		this.availabilityRepository = availabilityRepository;
 		this.roomRepository = roomRepository;
+		this.propertyController = propertyController;
 	}
 
 
@@ -76,6 +85,12 @@ public class PropertyService {
 	    property.setState(state);
 	    
 	    Property savedProperty = propertyRepository.save(property);
+	    
+	    emailProducer.sendEmail(new EmailRequest(
+	    	    "pankaj.p.mutha14@gmail.com",
+	    	    "Property added!",
+	    	    "Your property has been successfully added."
+	    	));
 	    
 	 // Upload files to S3
 	    List<String> fileUrls = s3Service.uploadFiles(files);

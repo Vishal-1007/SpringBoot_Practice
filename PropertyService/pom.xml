@@ -61,6 +61,12 @@
       <artifactId>aws-java-sdk-s3</artifactId>
       <version>1.12.656</version>
     </dependency>
+    
+    <!-- Kafka -->
+		<dependency>
+			<groupId>org.springframework.kafka</groupId>
+			<artifactId>spring-kafka</artifactId>
+	    </dependency>
 
     <!-- Spring Boot devtools (optional for dev) -->
     <dependency>
